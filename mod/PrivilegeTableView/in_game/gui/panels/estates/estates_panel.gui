@@ -1,0 +1,37 @@
+# estates_panel.gui — Privilege Table View
+# Replaces the vanilla estates panel with a columnar text-table layout.
+#
+# DATA FUNCTION PLACEHOLDERS:
+# All [DataType.FunctionName] references below are placeholders.
+# After installing, run dump_data_types in the game console and replace
+# every line marked # PLACEHOLDER with the real data function names.
+#
+# IMPORTANT: The type name "privilege_table_panel" at the bottom of this
+# file must be changed to match the vanilla type name found via UI Bounds
+# in debug mode. See the spec for details.
+
+types PrivilegeTableTypes {
+
+    # A single privilege/reform rendered as a text line
+    type privilege_text_entry = widget {
+        size = { 0 24 }
+        layoutpolicy_horizontal = expanding
+
+        hbox = {
+            spacing = 4
+
+            text_single = {
+                # PLACEHOLDER: replace with actual privilege name function
+                text = "[EstatePrivilege.GetName]"
+                # PLACEHOLDER: replace with actual privilege tooltip function
+                tooltip = "[EstatePrivilege.GetTooltip]"
+                fontsize = 13
+                align = left|vcenter
+                default_format = "#medium"
+                max_width = 190
+                autoresize = yes
+                minimumsize = { 0 20 }
+            }
+        }
+    }
+}
