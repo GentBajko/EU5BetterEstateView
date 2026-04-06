@@ -1,9 +1,9 @@
 {
     "name": "Better Estate View",
-    "id": "privilege_table_view",
+    "id": "better_estate_view",
     "version": "1.0.0",
     "supported_game_version": "1.1.*",
-    "short_description": "Replaces estate privileges with a text table layout",
+    "short_description": "Replaces estate panel with a compact text-based 2-column layout",
     "tags": ["User Interface"],
     "relationships": [],
     "game_custom_data": {

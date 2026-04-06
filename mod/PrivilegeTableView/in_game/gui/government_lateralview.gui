@@ -1013,7 +1013,7 @@ types CountryHeaders {
 				datacontext = "[PrivilegeItem.GetPrivilege]"
 				text = "[EstatePrivilege.GetName]"
 				tooltip = "[EstatePrivilege.GetTooltip]"
-				fontsize = 11
+				fontsize = 14
 				align = left|vcenter
 				default_format = "#medium"
 				margin_left = 2
@@ -1046,7 +1046,7 @@ types CountryHeaders {
 				datacontext = "[ReformItem.GetReform]"
 				text = "[GovernmentReform.GetName]"
 				tooltip = "[GovernmentReform.GetTooltip]"
-				fontsize = 11
+				fontsize = 14
 				align = left|vcenter
 				default_format = "#medium"
 				margin_left = 2
@@ -3085,15 +3085,15 @@ lateralview = {
 															text_single = {
 																text = "[Estate.GetName]"
 																tooltip = "[Estate.GetUITooltip]"
-																fontsize = 13
+																fontsize = 14
 																default_format = "#bold"
 																align = left|vcenter
 															}
 
 															text_single = {
 																visible = "[Not(Estate.GetType.IsAlwaysLoyal)]"
-																raw_text = "([GetDataModelSize(EstatesItem.GetPrivileges)] [estate_privileges|e])"
-																fontsize = 10
+																raw_text = "(#high [GetDataModelSize(EstatesItem.GetPrivileges)]#! [estate_privileges|e])"
+																fontsize = 12
 																default_format = "#weak"
 																align = left|vcenter
 															}
