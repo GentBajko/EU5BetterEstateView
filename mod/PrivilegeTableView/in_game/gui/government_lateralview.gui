@@ -995,12 +995,12 @@ types CountryHeaders {
 	# stretches it wide and overlays text on top of the hidden icon.
 	type privilege_text_entry = hbox {
 		layoutpolicy_horizontal = expanding
-		minimumsize = { 0 24 }
+		minimumsize = { 0 18 }
 		visible = "[PrivilegeItem.HasPrivilege]"
 
 		widget = {
 			layoutpolicy_horizontal = expanding
-			size = { 0 24 }
+			size = { 0 18 }
 
 			# Vanilla clickable widget — handles left/right click actions
 			estate_card_privilege_common_widget = {
@@ -1013,12 +1013,14 @@ types CountryHeaders {
 				datacontext = "[PrivilegeItem.GetPrivilege]"
 				text = "[EstatePrivilege.GetName]"
 				tooltip = "[EstatePrivilege.GetTooltip]"
-				fontsize = 13
+				fontsize = 11
 				align = left|vcenter
 				default_format = "#medium"
-				margin_left = 4
+				margin_left = 2
 				size = { 100% 100% }
 				mouse_filter = none
+				elide = right
+				fontsize_min = 9
 			}
 		}
 	}
@@ -3000,7 +3002,7 @@ lateralview = {
 					}
 				}
 
-				### ESTATES AREA
+				### ESTATES AREA — MODDED: 2-column grid layout
 				widget = {
 					name = "estates_area_intro"
 					widgetid = "estates_area_intro"
@@ -3009,202 +3011,153 @@ lateralview = {
 
 					vbox = {
 						using = bg_secondary_inner_image_alt
-						margin_top = 10
 
 						scroll_list = {
 							using = layoutpolicy_expanding
 							blockoverride "scroll_list_layout" {
 								vbox = {
-									vbox = {
+									fixedgridbox = {
 										layoutpolicy_horizontal = expanding
+										addcolumn = 50%
+										addrow = 400
+										datamodel_wrap = 2
+										flipdirection = yes
+
 										datamodel = "[GovernmentView.GetSortedEstates]"
+
 										item = {
-											hbox = {
-												ignoreinvisible = yes
-												layoutpolicy_horizontal = expanding
+											widget = {
+												size = { 100% 395 }
+												margin = { 2 2 }
 												datacontext = "[EstatesItem.GetEstate]"
-												estate_card = {
-													visible = "[ObjectsEqual(Player.GetGovernment.GetEstateFromKey('crown_estate').GetType, Estate.GetType)]"
-													blockoverride "estate_card_right_header" {
-														# Reforms
+
+												widget = {
+													size = { 100% 100% }
+												widget = {
+													size = { 100% 100% }
+
+													using = bg_paper_card
+
+													vbox = {
+														spacing = 2
+														margin = { 6 4 }
+														layoutpolicy_horizontal = expanding
+
+														# Header: name + grant button
 														hbox = {
+															spacing = 4
+															minimumsize = { 0 24 }
+															layoutpolicy_horizontal = expanding
+
+															text_single = {
+																text = "[Estate.GetName]"
+																tooltip = "[Estate.GetUITooltip]"
+																fontsize = 13
+																default_format = "#bold"
+																align = left|vcenter
+															}
+
+															# Grant button (non-Crown)
+															icon = {
+																size = { 20 20 }
+																visible = "[Not(Estate.GetType.IsAlwaysLoyal)]"
+
+																card_header_button_04 = {
+																	size = { 100% 100% }
+																	onclick = "[EstatesItem.AddNewPrivilege]"
+																	tooltipwidget = {
+																		LeftClickButtonTooltip = {
+																			blockoverride "onclick_text" { text = "ADD_NEW_PRIVILEGE" }
+																		}
+																	}
+																}
+
+																icon = {
+																	size = { 70% 70% }
+																	parentanchor = center
+																	texture = "gfx/interface/buttons/estate_privileges/ep_plus.dds"
+																	texture_density = 2
+																}
+															}
+
+															expand = {}
+														}
+
+														# Stats row: power | pop | satisfaction
+														hbox = {
+															spacing = 4
+															layoutpolicy_horizontal = expanding
+
+															text_single = {
+																raw_text = "[Estate.GetRelativePower|0%] @power!"
+																datacontext = "[Estate]"
+																tooltipwidget = {
+																	using = estate_relative_power_tooltip
+																}
+																fontsize = 11
+																default_format = "#medium"
+															}
+
+															text_single = {
+																visible = "[Not(Estate.GetType.IsAlwaysLoyal)]"
+																raw_text = "| [Estate.GetTotalPopulation]@population!"
+																datacontext = "[Estate]"
+																tooltipwidget = {
+																	using = estate_population_tooltip
+																}
+																fontsize = 11
+																default_format = "#medium"
+															}
+
+															text_single = {
+																visible = "[Not(Estate.GetType.IsAlwaysLoyal)]"
+																raw_text = "| [Estate.GetSatisfaction|2%] > [Estate.GetTargetSatisfaction|2%]"
+																datacontext = "[Estate]"
+																tooltipwidget = {
+																	using = estate_satisfaction_tooltip
+																}
+																fontsize = 11
+																default_format = "#medium"
+															}
+
+															# Reforms (Crown)
+															text_single = {
+																visible = "[Estate.GetType.IsAlwaysLoyal]"
+																raw_text = "[reforms|e]: [GovernmentView.GetImplementedReforms]/[GovernmentView.GetPossibleReformsAmount]"
+																fontsize = 11
+																default_format = "#medium"
+															}
+
+															expand = {}
+														}
+														# Divider
+														divider_decorative = {
+															layoutpolicy_horizontal = expanding
+															size = { 0 1 }
+														}
+
+														# Privilege list — scrollable
+														scrollarea = {
 															layoutpolicy_horizontal = expanding
 															layoutpolicy_vertical = expanding
-							
-															spacing = 10
-							
-															visible = "[Estate.GetType.IsAlwaysLoyal]"
-															tooltipwidget = {
-																ContextualTooltipType = {
-																	blockoverride "title_text" {
-																		datacontext = "[Player]"
-																		text = "POSSIBLE_REFORMS"
-																	}
+															minimumsize = { 0 40 }
 
-																	blockoverride "concept_link" {
-																		text = "[reforms|e]"
-																	}
-																	
-																	blockoverride "title_icon" {
-																		icon = {
-																			using = tooltip_title_icon_size
-																			texture = "gfx/interface/icons/flat_icons/reforms.dds"
-																		}
-																	}
-																	blockoverride "title_button" {
-																		hint_button = {
-																			action_tooltip = {
-																				title = "OPEN_HINT"
-																				on_action = "[OpenLateralViewWithParams('hints', 'selected_hint = hint_has_possible_reform')]"
-																			}
-																		}
-																	}
-																	
-																	blockoverride "tooltip_content" {
-																		TooltipStringPairList = {
-																			blockoverride "block_title" {
-																				datacontext = "[Player]"
-																				text = "MAX_REFORM_SOURCES"
-																			}
-																			textcontext = "[Player.GetDescriptionFor('government_reform_slots')]"
-																		}
-																	}
-																}
+															scrollbar_vertical = {
+																using = vertical_scrollbar
 															}
-							
-															expand = {}
-							
+
 															vbox = {
-																text_single = {
-																	maximumsize = { 110 -1 }
-																	layoutpolicy_horizontal = preferred
-																	fontsize = 16
-																	align = right|nobaseline
-																	autoresize = yes
-																	text = "game_concept_reforms"
-																	default_format = "#explanation_link"
-																}
+																spacing = 1
+																layoutpolicy_horizontal = expanding
 
-																text_single = {
-																	maximumsize = { 110 -1 }
-																	layoutpolicy_horizontal = preferred
-																	raw_text = "[GovernmentView.GetImplementedReforms] / [GovernmentView.GetPossibleReformsAmount]"
-																	fontsize = 13
-																	align = right|nobaseline
-																	autoresize = yes
-																}
-															}
+																datamodel = "[EstatesItem.GetPrivileges]"
 
-															icon = {
-																size = {35 35}
-																texture = "gfx/interface/icons/flat_icons/reforms.dds"
+																item = {
+																	privilege_text_entry = {}
+																}
 															}
 														}
 													}
-
-													blockoverride "estate_card_content" {
-														# REFORMS DATA
-														name = "government_reforms"
-														reform_details_dynamic = {
-															visible = "[Not(GreaterThan_int32(GetDataModelSize(GovernmentView.GetReforms), GetReformsUILimit))]"
-															blockoverride "reforms_datamodel" {
-																datamodel = "[DataModelFirst(GovernmentView.GetReforms, GetReformsUILimit)]"
-															}
-														}
-
-														reform_details_dynamic = {
-															visible = "[GreaterThan_int32(GetDataModelSize(GovernmentView.GetReforms), GetReformsUILimit)]"
-															blockoverride "reforms_datamodel" {
-																datamodel = "[DataModelFirst(GovernmentView.GetReforms, Subtract_int32(GetReformsUILimit, '(int32)1'))]"
-															}
-														}
-
-														text_single = {
-															margin = { 6 11 }
-															using = Font_Type_Headers
-															raw_text = "+[Subtract_int32(GovernmentView.GetImplementedReforms, GetReformsUILimit)]"
-															align = nobaseline
-															visible = "[GreaterThan_int32(GovernmentView.GetImplementedReforms, GetReformsUILimit)]"
-															using = bg_number_container_bckg
-															tooltipwidget = {
-																ContextualTooltipType = {
-																	blockoverride "title_text" {																		
-																		text = "[Estate.GetLongNameWithNoTooltip]"
-																	}
-
-																	blockoverride "concept_link" {
-																		text = [government_reforms|E]
-																	}
-
-																	blockoverride "title_icon_texture" {
-																		texture = "[GetEstateIcon(Estate.GetType)]"
-																	}
-
-																	blockoverride "tooltip_layout_policy" {}
-
-																	blockoverride "tooltip_content" {
-																		TooltipListScrollArea = {
-																			blockoverride "block_scrollarea" {
-																				maximumsize = { 265 98 }
-																				minimumsize = { 265 49 }
-																			}
-
-																			blockoverride "scrollarea_content" {
-																				dynamicgridbox = {
-																					parentanchor = left
-																					flipdirection = yes
-																					datamodel_wrap = 7
-																					spacing = 4
-																					set_parent_dimension_to_minimum = height
-																					ignoreinvisible = yes
-
-																					datamodel = "[DataModelSkipFirst(GovernmentView.GetReforms, GetReformsUILimit)]"
-																					
-																					item = {
-																						widget = {
-																							size = { 37 51 }
-
-																							estate_reform_action_button_common_widget = {}
-
-																							expand = {}
-
-																							estate_reform_implementation_progress = {}
-																						}
-																					}
-																				}
-																			}
-																		}
-																	}
-																}
-															}
-															blockoverride "number_container_alpha" {
-																alpha = 0.5
-															}
-															blockoverride "number_container_color" {
-																modify_texture = {
-																	using = color_bg_blue_texture
-																	blend_mode = multiply
-																}
-															}
-														}
-
-														expand = {}
-
-														divider_flavor_01 = {size = {14 -1}}
-
-														widget = {
-															size = { 32 51 }
-
-															estate_add_reform_button = {
-																parentanchor = center
-																enabled = "[GreaterThan_int32(Subtract_int32(GovernmentView.GetPossibleReformsAmount, GovernmentView.GetImplementedReforms), '(int32)0')]"
-															}
-														}
-													}
-												}
-
-												estate_card = {
-													visible = "[Not(ObjectsEqual(Player.GetGovernment.GetEstateFromKey('crown_estate').GetType, Estate.GetType))]"
 												}
 											}
 										}
@@ -3215,6 +3168,7 @@ lateralview = {
 							}
 						}
 					}
+				}
 
 					AutomatedSection = {
 						datacontext = "[GetAutomatedSystemItem('estates')]"
