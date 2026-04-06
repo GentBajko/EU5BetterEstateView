@@ -1,7 +1,7 @@
 {
     "name": "Better Estate View",
     "id": "better_estate_view",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "supported_game_version": "1.1.*",
     "short_description": "Replaces estate panel with a compact text-based 2-column layout",
     "tags": ["User Interface"],
