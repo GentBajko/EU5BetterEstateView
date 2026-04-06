@@ -3057,6 +3057,14 @@ lateralview = {
 																align = left|vcenter
 															}
 
+															text_single = {
+																visible = "[Not(Estate.GetType.IsAlwaysLoyal)]"
+																raw_text = "([GetDataModelSize(EstatesItem.GetPrivileges)] [estate_privileges|e])"
+																fontsize = 10
+																default_format = "#weak"
+																align = left|vcenter
+															}
+
 															# Grant button (non-Crown)
 															icon = {
 																size = { 20 20 }
