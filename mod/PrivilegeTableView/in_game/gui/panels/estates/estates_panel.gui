@@ -34,4 +34,113 @@ types PrivilegeTableTypes {
             }
         }
     }
+
+    # One column representing a single estate
+    type estate_column = widget {
+        layoutpolicy_horizontal = expanding
+        layoutpolicy_vertical = expanding
+
+        vbox = {
+            spacing = 4
+            margin = { 8 8 }
+
+            # ── Header row: icon + name + grant button ──
+            hbox = {
+                spacing = 6
+                minimumsize = { 0 36 }
+
+                # Estate icon
+                icon = {
+                    size = { 28 28 }
+                    # PLACEHOLDER: replace with actual estate icon function
+                    texture = "[Estate.GetIcon]"
+                }
+
+                # Estate name
+                text_single = {
+                    # PLACEHOLDER: replace with actual estate name function
+                    text = "[Estate.GetName]"
+                    fontsize = 15
+                    default_format = "#bold"
+                    align = left|vcenter
+                    layoutpolicy_horizontal = expanding
+                }
+
+                # Grant button
+                button = {
+                    size = { 20 20 }
+                    text = "+"
+                    using = default_button
+                    # PLACEHOLDER: replace with actual grant action
+                    onclick = "[Estate.OpenGrantPrivilegeWindow]"
+                    tooltip = "Grant privilege"
+                }
+            }
+
+            # ── Stats line: power, population ──
+            text_single = {
+                # PLACEHOLDER: replace with actual power/population functions
+                text = "[Estate.GetPowerFormatted] | [Estate.GetPopulationFormatted]"
+                fontsize = 11
+                default_format = "#medium"
+                align = left
+            }
+
+            # ── Satisfaction line (non-Crown estates) ──
+            text_single = {
+                # PLACEHOLDER: replace with actual satisfaction function
+                text = "Satisfaction: [Estate.GetSatisfactionFormatted]"
+                fontsize = 11
+                default_format = "#medium"
+                align = left
+                # PLACEHOLDER: add visible condition to hide for Crown estate
+                # visible = "[Not(Estate.IsCrown)]"
+            }
+
+            # ── Reforms line (Crown estate only) ──
+            text_single = {
+                # PLACEHOLDER: replace with actual reforms count function
+                text = "Reforms: [Estate.GetReformsFormatted]"
+                fontsize = 11
+                default_format = "#medium"
+                align = left
+                # PLACEHOLDER: add visible condition to show only for Crown
+                # visible = "[Estate.IsCrown]"
+            }
+
+            # ── Divider ──
+            divider_decorative = {
+                layoutpolicy_horizontal = expanding
+                size = { 0 2 }
+            }
+
+            # ── Privilege/reform list with scroll ──
+            scrollarea = {
+                layoutpolicy_horizontal = expanding
+                layoutpolicy_vertical = expanding
+                minimumsize = { 0 100 }
+
+                scrollbar_vertical = {
+                    using = vertical_scrollbar
+                }
+
+                vbox = {
+                    spacing = 2
+                    layoutpolicy_horizontal = expanding
+
+                    # PLACEHOLDER: replace with actual privileges datamodel
+                    datamodel = "[Estate.GetPrivileges]"
+
+                    item = {
+                        privilege_text_entry = {}
+                    }
+                }
+            }
+        }
+
+        # Column background
+        background = {
+            using = dark_area
+        }
+    }
 }
