@@ -1024,7 +1024,40 @@ types CountryHeaders {
 			}
 		}
 	}
-	
+
+	# Reform text entry for Crown estate
+	type reform_text_entry = hbox {
+		layoutpolicy_horizontal = expanding
+		minimumsize = { 0 18 }
+		visible = "[ReformItem.IsImplemented]"
+
+		widget = {
+			layoutpolicy_horizontal = expanding
+			size = { 0 18 }
+
+			# Vanilla clickable widget for reform actions
+			estate_reform_action_button_common_widget = {
+				size = { 100% 100% }
+				alpha = 0
+			}
+
+			# Text overlay
+			text_single = {
+				datacontext = "[ReformItem.GetReform]"
+				text = "[GovernmentReform.GetName]"
+				tooltip = "[GovernmentReform.GetTooltip]"
+				fontsize = 11
+				align = left|vcenter
+				default_format = "#medium"
+				margin_left = 2
+				size = { 100% 100% }
+				mouse_filter = none
+				elide = right
+				fontsize_min = 9
+			}
+		}
+	}
+
 	type laws_list_item = vbox {
 		layoutpolicy_horizontal = expanding
 		margin = {5 0}
@@ -3088,6 +3121,26 @@ lateralview = {
 																}
 															}
 
+															# Add reform button (Crown) — same style as privilege grant
+															icon = {
+																size = { 20 20 }
+																visible = "[Estate.GetType.IsAlwaysLoyal]"
+																alpha = "[Select_float(GreaterThan_int32(Subtract_int32(GovernmentView.GetPossibleReformsAmount, GovernmentView.GetImplementedReforms), '(int32)0'), '(float)1.0', '(float)0.3')]"
+
+																card_header_button_04 = {
+																	size = { 100% 100% }
+																	enabled = "[GreaterThan_int32(Subtract_int32(GovernmentView.GetPossibleReformsAmount, GovernmentView.GetImplementedReforms), '(int32)0')]"
+																	onclick = "[EstatesItem.AddNewPrivilege]"
+																}
+
+																icon = {
+																	size = { 70% 70% }
+																	parentanchor = center
+																	texture = "gfx/interface/buttons/estate_privileges/ep_plus.dds"
+																	texture_density = 2
+																}
+															}
+
 															expand = {}
 														}
 
@@ -3144,8 +3197,9 @@ lateralview = {
 															size = { 0 1 }
 														}
 
-														# Privilege list — scrollable
+														# Privilege list (non-Crown) — scrollable
 														scrollarea = {
+															visible = "[Not(Estate.GetType.IsAlwaysLoyal)]"
 															layoutpolicy_horizontal = expanding
 															layoutpolicy_vertical = expanding
 															minimumsize = { 0 40 }
@@ -3162,6 +3216,29 @@ lateralview = {
 
 																item = {
 																	privilege_text_entry = {}
+																}
+															}
+														}
+
+														# Reform list (Crown) — scrollable
+														scrollarea = {
+															visible = "[Estate.GetType.IsAlwaysLoyal]"
+															layoutpolicy_horizontal = expanding
+															layoutpolicy_vertical = expanding
+															minimumsize = { 0 40 }
+
+															scrollbar_vertical = {
+																using = vertical_scrollbar
+															}
+
+															vbox = {
+																spacing = 1
+																layoutpolicy_horizontal = expanding
+
+																datamodel = "[GovernmentView.GetReforms]"
+
+																item = {
+																	reform_text_entry = {}
 																}
 															}
 														}
