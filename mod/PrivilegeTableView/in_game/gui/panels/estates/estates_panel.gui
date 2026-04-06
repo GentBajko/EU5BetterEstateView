@@ -143,4 +143,51 @@ types PrivilegeTableTypes {
             using = dark_area
         }
     }
+
+    # Main panel — replaces the vanilla estates panel
+    # IMPORTANT: Rename this type to match the vanilla type name
+    # found via UI Bounds in debug mode. The name "privilege_table_panel"
+    # is a placeholder — the engine substitutes types by name, so this
+    # must match exactly.
+    type privilege_table_panel = widget {
+        size = { 1100 650 }
+
+        vbox = {
+            margin = { 12 12 }
+            spacing = 8
+
+            # ── Title bar ──
+            hbox = {
+                minimumsize = { 0 40 }
+
+                text_single = {
+                    text = "PRIVILEGE_TABLE_TITLE"
+                    fontsize = 18
+                    default_format = "#title"
+                    align = left|vcenter
+                }
+
+                expand = {}
+            }
+
+            # ── Column container — one column per estate ──
+            hbox = {
+                spacing = 8
+                layoutpolicy_horizontal = expanding
+                layoutpolicy_vertical = expanding
+
+                # PLACEHOLDER: replace with actual estates datamodel
+                datamodel = "[CountryGovernmentView.GetEstates]"
+
+                item = {
+                    estate_column = {}
+                }
+            }
+        }
+
+        # Panel background
+        background = {
+            using = window_background
+        }
+    }
 }
