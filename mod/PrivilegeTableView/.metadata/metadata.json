@@ -1,0 +1,12 @@
+{
+    "name": "Privilege Table View",
+    "id": "privilege_table_view",
+    "version": "1.0.0",
+    "supported_game_version": "1.1.*",
+    "short_description": "Replaces estate privileges with a text table layout",
+    "tags": ["User Interface"],
+    "relationships": [],
+    "game_custom_data": {
+        "replace_paths": []
+    }
+}
