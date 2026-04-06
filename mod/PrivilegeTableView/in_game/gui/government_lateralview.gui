@@ -3103,8 +3103,9 @@ lateralview = {
 																size = { 20 20 }
 																visible = "[Not(Estate.GetType.IsAlwaysLoyal)]"
 
-																card_header_button_04 = {
-																	size = { 100% 100% }
+																estate_add_reform_button = {
+																	parentanchor = center
+																	size = { 20 20 }
 																	onclick = "[EstatesItem.AddNewPrivilege]"
 																	tooltipwidget = {
 																		LeftClickButtonTooltip = {
@@ -3112,32 +3113,18 @@ lateralview = {
 																		}
 																	}
 																}
-
-																icon = {
-																	size = { 70% 70% }
-																	parentanchor = center
-																	texture = "gfx/interface/buttons/estate_privileges/ep_plus.dds"
-																	texture_density = 2
-																}
 															}
 
-															# Add reform button (Crown) — same style as privilege grant
+															# Add reform button (Crown)
 															icon = {
 																size = { 20 20 }
 																visible = "[Estate.GetType.IsAlwaysLoyal]"
 																alpha = "[Select_float(GreaterThan_int32(Subtract_int32(GovernmentView.GetPossibleReformsAmount, GovernmentView.GetImplementedReforms), '(int32)0'), '(float)1.0', '(float)0.3')]"
 
-																card_header_button_04 = {
-																	size = { 100% 100% }
-																	enabled = "[GreaterThan_int32(Subtract_int32(GovernmentView.GetPossibleReformsAmount, GovernmentView.GetImplementedReforms), '(int32)0')]"
-																	onclick = "[EstatesItem.AddNewPrivilege]"
-																}
-
-																icon = {
-																	size = { 70% 70% }
+																estate_add_reform_button = {
 																	parentanchor = center
-																	texture = "gfx/interface/buttons/estate_privileges/ep_plus.dds"
-																	texture_density = 2
+																	size = { 20 20 }
+																	enabled = "[GreaterThan_int32(Subtract_int32(GovernmentView.GetPossibleReformsAmount, GovernmentView.GetImplementedReforms), '(int32)0')]"
 																}
 															}
 
