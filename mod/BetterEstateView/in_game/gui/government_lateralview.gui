@@ -3103,15 +3103,21 @@ lateralview = {
 																size = { 20 20 }
 																visible = "[Not(Estate.GetType.IsAlwaysLoyal)]"
 
-																estate_add_reform_button = {
-																	parentanchor = center
-																	size = { 20 20 }
+																card_header_button_04 = {
+																	size = { 100% 100% }
 																	onclick = "[EstatesItem.AddNewPrivilege]"
 																	tooltipwidget = {
 																		LeftClickButtonTooltip = {
 																			blockoverride "onclick_text" { text = "ADD_NEW_PRIVILEGE" }
 																		}
 																	}
+																}
+
+																icon = {
+																	size = { 80% 80% }
+																	parentanchor = center
+																	texture = "gfx/interface/buttons/estate_privileges/ep_plus.dds"
+																	texture_density = 2
 																}
 															}
 
